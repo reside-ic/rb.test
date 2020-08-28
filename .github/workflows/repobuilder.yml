@@ -34,7 +34,7 @@ jobs:
       - name: Install dependencies
         run: |
           install.packages(c("remotes"))
-          remotes::install_github("mrc-ide/repobuilder@prototype")
+          remotes::install_github("reside-ic/repobuilder@prototype")
         shell: Rscript {0}
 
       - name: Build packages
