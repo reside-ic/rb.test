@@ -38,6 +38,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Build packages
+        shell: Rscript {0}
         run: |
           repobuilder:::gha_build()
 
