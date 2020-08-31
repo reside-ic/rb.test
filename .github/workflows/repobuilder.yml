@@ -30,7 +30,7 @@ jobs:
       - name: Build packages
         shell: Rscript {0}
         run: |
-          repobuilder:::gha_build()
+          repobuilder:::gha_source()
 
       - name: Upload package
         if: success()
