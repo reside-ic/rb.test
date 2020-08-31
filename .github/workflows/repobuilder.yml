@@ -62,6 +62,6 @@ jobs:
           name: sources
 
       - name: Build packages
-        shell: Rscript {0}
+        shell: bash
         run: |
           ls -R gha
