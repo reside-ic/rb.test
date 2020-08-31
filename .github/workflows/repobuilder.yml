@@ -40,6 +40,8 @@ jobs:
           path: gha
 
   build-packages:
+    needs: build-source
+
     runs-on: ${{ matrix.config.os }}
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
