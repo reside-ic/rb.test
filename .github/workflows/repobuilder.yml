@@ -112,7 +112,13 @@ jobs:
         with:
           path: gha
 
-      - name: Build site
+      - name: Show downloaded contents
         shell: bash
         run: |
           ls -R gha
+
+      - name: Deploy site
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          Rscript -e 'repobuilder:::gha_site()'
