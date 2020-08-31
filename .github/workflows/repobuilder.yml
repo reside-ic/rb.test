@@ -66,3 +66,37 @@ jobs:
         shell: bash
         run: |
           ls -R gha
+          mkdir -p gha/bin/${{ matrix.config.os }}/${{ matrix.config.r }}
+          touch gha/bin/${{ matrix.config.os }}/${{ matrix.config.r }}/ring.zip
+          touch gha/bin/${{ matrix.config.os }}/${{ matrix.config.r }}/dde.zip
+          touch gha/bin/${{ matrix.config.os }}/${{ matrix.config.r }}/packages.yml
+
+      - name: Upload package
+        if: success()
+        uses: actions/upload-artifact@v2
+        with:
+          name: binaries-${{ matrix.config.os }}-${{ matrix.config.r }}
+          path: gha/bin
+
+  build-site:
+    needs: build-packages
+    runs-on: macOS-latest
+
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v2
+        with:
+          path: gha
+
+      - name: Build site
+        shell: bash
+        run: |
+          ls -R gha
