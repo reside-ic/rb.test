@@ -19,18 +19,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: r-lib/actions/setup-r@master
-
-      - name: Install dependencies
-        run: |
-          install.packages(c("remotes"))
-          remotes::install_github("reside-ic/repobuilder@prototype")
-        shell: Rscript {0}
-
       - name: Build packages
-        shell: Rscript {0}
+        shell: bash
         run: |
-          repobuilder:::gha_source()
+          mkdir -p gha/source
+          touch gha/source/dde_1.0.2.tar.gz
+          touch gha/source/ring_1.0.1.tar.gz
+          touch gha/source/packages.yml
 
       - name: Upload package
         if: success()
@@ -51,9 +46,9 @@ jobs:
       matrix:
         config:
           - {os: macOS-latest,   r: 'release'}
-          - {os: macOS-latest,   r: 'oldrel'}
+          # - {os: macOS-latest,   r: 'oldrel'}
           - {os: windows-latest, r: 'release'}
-          - {os: windows-latest, r: 'oldrel'}
+          # - {os: windows-latest, r: 'oldrel'}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -62,17 +57,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-r@master
-        with:
-          r-version: ${{ matrix.config.r }}
-          http-user-agent: ${{ matrix.config.http-user-agent }}
-
-      - name: Install dependencies
-        run: |
-          install.packages(c("remotes"))
-          remotes::install_github("reside-ic/repobuilder@prototype")
-        shell: Rscript {0}
-
       - uses: actions/download-artifact@v2
         with:
           name: sources
@@ -80,11 +64,4 @@ jobs:
       - name: Build packages
         shell: Rscript {0}
         run: |
-          repobuilder:::gha_binaries()
-
-      - name: Upload package
-        if: success()
-        uses: actions/upload-artifact@v2
-        with:
-          name: binary-${{ runner.os }}-r${{ matrix.config.r }}
-          path: work/bin
+          ls -R gha
