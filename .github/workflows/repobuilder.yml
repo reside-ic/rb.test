@@ -5,6 +5,40 @@ on:
       - master
 
 jobs:
+  build-source:
+    runs-on: macOS-latest
+
+    name: "Build source"
+
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: r-lib/actions/setup-r@master
+
+      - name: Install dependencies
+        run: |
+          install.packages(c("remotes"))
+          remotes::install_github("reside-ic/repobuilder@prototype")
+        shell: Rscript {0}
+
+      - name: Build packages
+        shell: Rscript {0}
+        run: |
+          repobuilder:::gha_build()
+
+      - name: Upload package
+        if: success()
+        uses: actions/upload-artifact@v2
+        with:
+          name: sources
+          path: gha
+
   build-packages:
     runs-on: ${{ matrix.config.os }}
 
@@ -37,14 +71,18 @@ jobs:
           remotes::install_github("reside-ic/repobuilder@prototype")
         shell: Rscript {0}
 
+      - uses: actions/download-artifact@v2
+        with:
+          name: sources
+
       - name: Build packages
         shell: Rscript {0}
         run: |
-          repobuilder:::gha_build()
+          repobuilder:::gha_binaries()
 
       - name: Upload package
         if: success()
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ runner.os }}-r${{ matrix.config.r }}-packages.zip
-          path: work/packages
+          name: binary-${{ runner.os }}-r${{ matrix.config.r }}
+          path: work/bin
