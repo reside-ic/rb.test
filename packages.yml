@@ -1,0 +1,8 @@
+- package: ring
+  version: 1.0.1
+  sha256: e58e9f0d452b89e5d700a673ead726bce31ba278
+  ref: mrc-ide/ring
+- package: dde
+  version: 1.0.2
+  sha256: 9e92e75c4b557e127c7aba0ebf98d7dddc641581
+  ref: mrc-ide/dde

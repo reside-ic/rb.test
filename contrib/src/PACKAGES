@@ -1,0 +1,16 @@
+Package: dde
+Version: 1.0.2
+Depends: R (>= 3.1.0)
+LinkingTo: ring (>= 1.0.0)
+Suggests: deSolve, knitr, microbenchmark, rmarkdown, testthat
+License: MIT + file LICENSE
+MD5sum: 334d63cee4acbb2f18edbfecfbb1b33e
+NeedsCompilation: yes
+
+Package: ring
+Version: 1.0.1
+Imports: R6
+Suggests: knitr, rmarkdown, testthat
+License: MIT + file LICENSE
+MD5sum: 06649f57448b179e9186d739c041f191
+NeedsCompilation: yes
