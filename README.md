@@ -1,1 +1,1 @@
-Just a test of repobuilder
+Just a test of repobuilder.
