@@ -32,6 +32,11 @@ jobs:
         run: |
           repobuilder:::gha_source()
 
+      - name: Show environment variables
+        shell: bash
+        run: |
+          env | grep -i REPOBUILDER
+
       - name: Upload package
         if: success()
         uses: actions/upload-artifact@v2
@@ -62,6 +67,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Show environment variables
+        shell: bash
+        run: |
+          env | grep -i REPOBUILDER
+
       - uses: actions/download-artifact@v2
         with:
           name: sources
@@ -73,17 +83,20 @@ jobs:
           ls -R gha
 
       - uses: r-lib/actions/setup-r@master
+        if: env.REPOBUILDER_BUILD == 'TRUE'
         with:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
 
       - name: Install dependencies
+        if: env.REPOBUILDER_BUILD == 'TRUE'
         run: |
           install.packages(c("remotes"))
           remotes::install_github("reside-ic/repobuilder@prototype")
         shell: Rscript {0}
 
       - name: Build packages
+        if: env.REPOBUILDER_BUILD == 'TRUE'
         shell: Rscript {0}
         run: |
           repobuilder:::gha_binaries()
@@ -108,6 +121,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Show environment variables
+        shell: bash
+        run: |
+          env | grep -i REPOBUILDER
+
       - uses: actions/download-artifact@v2
         with:
           path: gha
@@ -118,17 +136,20 @@ jobs:
           ls -R gha
 
       - uses: r-lib/actions/setup-r@master
+        if: env.REPOBUILDER_BUILD == 'TRUE'
         with:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
 
       - name: Install dependencies
+        if: env.REPOBUILDER_BUILD == 'TRUE'
         run: |
           install.packages(c("remotes"))
           remotes::install_github("reside-ic/repobuilder@prototype")
         shell: Rscript {0}
 
       - name: Deploy site
+        if: env.REPOBUILDER_BUILD == 'TRUE'
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
