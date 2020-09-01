@@ -135,7 +135,7 @@ jobs:
         shell: bash
         run: |
           ls -R gha
-          echo "::set-env name=REPOBUILDER_BUILD::$(cat gha/src/build)"
+          echo "::set-env name=REPOBUILDER_BUILD::$(cat gha/sources/src/build)"
 
       - name: Show environment variables
         shell: bash
