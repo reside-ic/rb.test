@@ -81,6 +81,12 @@ jobs:
         shell: bash
         run: |
           ls -R gha
+          echo "::set-env name=REPOBUILDER_BUILD::$(cat gha/src/build)"
+
+      - name: Show environment variables
+        shell: bash
+        run: |
+          env | grep -i REPOBUILDER
 
       - uses: r-lib/actions/setup-r@master
         if: env.REPOBUILDER_BUILD == 'TRUE'
@@ -121,11 +127,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Show environment variables
-        shell: bash
-        run: |
-          env | grep -i REPOBUILDER
-
       - uses: actions/download-artifact@v2
         with:
           path: gha
@@ -134,6 +135,12 @@ jobs:
         shell: bash
         run: |
           ls -R gha
+          echo "::set-env name=REPOBUILDER_BUILD::$(cat gha/src/build)"
+
+      - name: Show environment variables
+        shell: bash
+        run: |
+          env | grep -i REPOBUILDER
 
       - uses: r-lib/actions/setup-r@master
         if: env.REPOBUILDER_BUILD == 'TRUE'
