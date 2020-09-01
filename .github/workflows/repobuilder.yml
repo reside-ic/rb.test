@@ -62,26 +62,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Show environment variables
-        shell: bash
-        run: |
-          env | grep -i REPOBUILDER
-
       - uses: actions/download-artifact@v2
         with:
           name: sources
           path: gha
 
-      - name: Show downloaded contents
+      - name: Check if action needed
         shell: bash
         run: |
-          ls -R gha
           echo "::set-env name=REPOBUILDER_BUILD::$(cat gha/src/build)"
-
-      - name: Show environment variables
-        shell: bash
-        run: |
-          env | grep -i REPOBUILDER
 
       - uses: r-lib/actions/setup-r@master
         if: env.REPOBUILDER_BUILD == 'TRUE'
@@ -126,16 +115,10 @@ jobs:
         with:
           path: gha
 
-      - name: Show downloaded contents
+      - name: Check if action needed
         shell: bash
         run: |
-          ls -R gha
           echo "::set-env name=REPOBUILDER_BUILD::$(cat gha/sources/src/build)"
-
-      - name: Show environment variables
-        shell: bash
-        run: |
-          env | grep -i REPOBUILDER
 
       - uses: r-lib/actions/setup-r@master
         if: env.REPOBUILDER_BUILD == 'TRUE'
