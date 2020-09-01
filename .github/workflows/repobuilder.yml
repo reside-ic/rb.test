@@ -32,11 +32,6 @@ jobs:
         run: |
           repobuilder:::gha_source()
 
-      - name: Show environment variables
-        shell: bash
-        run: |
-          env | grep -i REPOBUILDER
-
       - name: Upload package
         if: success()
         uses: actions/upload-artifact@v2
