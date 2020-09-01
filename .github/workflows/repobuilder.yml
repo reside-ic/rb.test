@@ -130,16 +130,5 @@ jobs:
 
       - name: Deploy site
         run: |
-          if [ git show-ref --verify --quiet refs/remotes/origin/gh-pages ];
-          then
-            git branch gh-pages origin/gh-pages
-            git clone -b gh-pages . gh-pages
-          else
-            git init gh-pages
-            git -C gh-pages checkout --orphan gh-pages
-          fi
-          git -C gh-pages config --local user.email "actions@github.com"
-          git -C gh-pages config --local user.name "GitHub Actions"
-          git -C gh-pages remote add origin $(git remote get-url origin)
           Rscript -e 'repobuilder:::gha_site()'
           git -C gh-pages push origin gh-pages
